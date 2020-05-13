@@ -11,7 +11,7 @@ private:
 	int* mparr;
 public:
 	sort_indices(int* parr) : mparr(parr) {}
-	bool operator()(int i, int j) const { return mparr[i] < mparr[j]; }
+	bool operator()(int i, int j) const { return mparr[i] > mparr[j]; }
 };
 
 class process
@@ -78,7 +78,7 @@ void process::do_NEH()////////////////Tu skonczylem
 			//std::cout << std::endl << "n-m-1=" << tmp_order[n - m - 1];
 			tmp_Cmax = count_part_cmax(n+1, no_of_machines, tmp_order);
 			//std::cout << std::endl << "kolejne" << m << " cmax: " << tmp_Cmax;
-			
+			// || (tmp_Cmax==best_Cmax&&tmp_order[n-m]>tmp_order[n-m-1])
 			if (tmp_Cmax <= best_Cmax)
 			{
 				best_Cmax = tmp_Cmax;
@@ -238,10 +238,19 @@ process::process(std::string name)
 	{
 		inv_order_of_weights[i] = indices[i];
 	}
+	
+	for (int i = 0; i < size_of_process-1; i++)
+	{
+		if (inv_order_of_weights[i] == inv_order_of_weights[i + 1]) {
+			std::cout << "Zmieniam kolejnosc" << std::endl;
+			std::swap(inv_order_of_weights[i], inv_order_of_weights[i + 1]);
+		}
+	}
 
 	for (int i = 0; i < size_of_process; i++)
 	{
-		order_of_weights[i] = inv_order_of_weights[size_of_process-i-1];
+		order_of_weights[i] = inv_order_of_weights[i];
+		//order_of_weights[i] = inv_order_of_weights[size_of_process-i-1];
 	}
 
 	infile.close();
@@ -251,12 +260,12 @@ process::process(std::string name)
 
 int load_process(int liczba) {
 	process process_1("data.00" + std::to_string(liczba) + ":");
-	//std::cout << "wagi procesu " << liczba << " przed sortowaniem: " << std::endl;
-	//process_1.print_weights();
-	//std::cout << std::endl << "wagi procesu " << liczba << " po sortowaniu:" << std::endl;
-	//process_1.print_order_of_weights();
-	//std::cout << std::endl << "kolejnosc procesu " << liczba << " po sortowaniu:" << std::endl;
-	//process_1.print_order();
+	std::cout << "wagi procesu " << liczba << " przed sortowaniem: " << std::endl;
+	process_1.print_weights();
+	std::cout << std::endl << "wagi procesu " << liczba << " po sortowaniu:" << std::endl;
+	process_1.print_order_of_weights();
+	std::cout << std::endl << "kolejnosc procesu " << liczba << " po sortowaniu:" << std::endl;
+	process_1.print_order();
 	//std::cout << "TUTAJ1";
 	std::cout << std::endl << "Caly Cmax:" << process_1.count_cmax(process_1.order_of_weights);
 	//std::cout << std::endl << "czesc Cmax: "<< process_1.count_part_cmax(2,3,process_1.order_of_weights) << std::endl;
@@ -301,7 +310,6 @@ int main() {
 		std::cout << std::endl << "Czas na proces data.00" << i << std::endl;
 		load_process(i);
 	}
-
 	for (int i = 10; i < 100; i++)
 	{
 		std::cout << std::endl << "Czas na proces data.0" << i << std::endl;
