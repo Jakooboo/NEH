@@ -46,7 +46,7 @@ void process::do_NEH()////////////////Tu skonczylem
 {
 	int* ready_order = new int[size_of_process];
 	int* tmp_order = new int[size_of_process];
-	std::cout << std::endl;
+	//std::cout << std::endl;
 	for (int i = 0; i < size_of_process; i++)
 	{
 		tmp_order[i] = order_of_weights[i];
@@ -111,11 +111,12 @@ void process::do_NEH()////////////////Tu skonczylem
 		
 	}
 	std::cout << std::endl << "Koncowy wynik po NEH: " << count_cmax(ready_order) << std::endl;
-	std::cout << "koncowy order: ";
+	std::cout << "koncowa kolejnosc: ";
 	for(int n = 0; n < size_of_process; n++)
 	{
 		std::cout << ready_order[n]+1 << " ";
 	}
+	std::cout << std::endl << std::endl;
 }
 
 
@@ -204,7 +205,7 @@ process::process(std::string name)
 	infile >> no_of_machines;
 	//size_of_process--;
 
-	std::cout << "\nRozmiar procesu: " << size_of_process << std::endl;
+	std::cout << "\nRozmiar procesu: " << size_of_process;
 
 	process_table = new int[size_of_process * no_of_machines];
 	int tmp;
@@ -260,14 +261,14 @@ process::process(std::string name)
 
 int load_process(int liczba) {
 	process process_1("data.00" + std::to_string(liczba) + ":");
-	std::cout << "wagi procesu " << liczba << " przed sortowaniem: " << std::endl;
-	process_1.print_weights();
-	std::cout << std::endl << "wagi procesu " << liczba << " po sortowaniu:" << std::endl;
-	process_1.print_order_of_weights();
-	std::cout << std::endl << "kolejnosc procesu " << liczba << " po sortowaniu:" << std::endl;
-	process_1.print_order();
+	//std::cout << "wagi procesu " << liczba << " przed sortowaniem: " << std::endl;
+	//process_1.print_weights();
+	//std::cout << std::endl << "wagi procesu " << liczba << " po sortowaniu:" << std::endl;
+	//process_1.print_order_of_weights();
+	//std::cout << std::endl << "kolejnosc procesu " << liczba << " po sortowaniu:" << std::endl;
+	//process_1.print_order();
 	//std::cout << "TUTAJ1";
-	std::cout << std::endl << "Caly Cmax:" << process_1.count_cmax(process_1.order_of_weights);
+	//std::cout << std::endl << "Caly Cmax:" << process_1.count_cmax(process_1.order_of_weights);
 	//std::cout << std::endl << "czesc Cmax: "<< process_1.count_part_cmax(2,3,process_1.order_of_weights) << std::endl;
 	process_1.do_NEH();
 	return 0;
